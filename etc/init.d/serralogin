@@ -1,0 +1,37 @@
+#!/sbin/runscript
+# Copyright 1999-2011 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+depend()
+{
+	[ -e /etc/init.d/net.$SERRA_INTERFACE ] && need net.$SERRA_INTERFACE
+}
+
+start() {
+
+	ebegin "Starting Serra Auto Login Daemon"
+
+	/usr/local/bin/serralogin.py &> /dev/null &
+
+	eend $?
+
+}
+
+stop() {
+
+	ebegin "Stopping Serra Auto Login Daemon"
+
+	killall serralogin.py
+
+	eend $?
+
+}
+
+restart() {
+
+	svc_stop
+	sleep 3
+	svc_start
+
+}
